@@ -1,0 +1,167 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Dashboard</h4>
+
+  <!-- Stats Cards - Modern Design -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card adm-dashboard-card adm-stat-card adm-stat-organizations h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Organizations</p>
+              <h3 class="mb-0 fw-bold"><%= stats.organizations %></h3>
+            </div>
+            <div class="adm-stat-icon-wrapper adm-stat-icon-primary rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-building-community ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card adm-dashboard-card adm-stat-card adm-stat-users h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Total Users</p>
+              <h3 class="mb-0 fw-bold"><%= stats.users %></h3>
+            </div>
+            <div class="adm-stat-icon-wrapper adm-stat-icon-info rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-users ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card adm-dashboard-card adm-stat-card adm-stat-managers h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Managers</p>
+              <h3 class="mb-0 fw-bold"><%= stats.managers %></h3>
+            </div>
+            <div class="adm-stat-icon-wrapper adm-stat-icon-success rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-user-check ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card adm-dashboard-card adm-stat-card adm-stat-employees h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Employees</p>
+              <h3 class="mb-0 fw-bold"><%= stats.employees %></h3>
+            </div>
+            <div class="adm-stat-icon-wrapper adm-stat-icon-warning rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-user ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions - Card Grid -->
+  <div class="card adm-dashboard-card">
+    <div class="card-header d-flex align-items-center py-3">
+      <i class="ti ti-bolt me-2 text-primary"></i>
+      <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <a href="/admin/organizations" class="adm-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="adm-action-icon adm-action-icon-primary rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-list ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">View Organizations</h6>
+              <p class="text-muted small mb-0">Browse all organizations</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4">
+          <a href="/admin/organizations/new" class="adm-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="adm-action-icon adm-action-icon-success rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-building-plus ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">Create Organization</h6>
+              <p class="text-muted small mb-0">Add a new organization</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Admin Dashboard - Enhanced UI (same as Organization/Manager/Employee) */
+.adm-dashboard-card {
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.adm-dashboard-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Stat Cards */
+.adm-stat-card {
+  border-left: 4px solid transparent;
+}
+
+.adm-stat-card.adm-stat-organizations { border-left-color: #696cff; }
+.adm-stat-card.adm-stat-users { border-left-color: #03c3ec; }
+.adm-stat-card.adm-stat-managers { border-left-color: #71dd37; }
+.adm-stat-card.adm-stat-employees { border-left-color: #ffab00; }
+
+.adm-stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+}
+
+.adm-stat-icon-primary { background: linear-gradient(135deg, #696cff 0%, #5f61e6 100%); }
+.adm-stat-icon-info { background: linear-gradient(135deg, #03c3ec 0%, #01a0c6 100%); }
+.adm-stat-icon-success { background: linear-gradient(135deg, #71dd37 0%, #56b329 100%); }
+.adm-stat-icon-warning { background: linear-gradient(135deg, #ffab00 0%, #ff8f00 100%); }
+
+/* Quick Action Cards */
+.adm-action-card {
+  background: #f8f9fa;
+  transition: all 0.25s ease;
+}
+
+.adm-action-card:hover {
+  background: #fff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.adm-action-card:hover .adm-action-icon {
+  transform: scale(1.05);
+}
+
+.adm-action-icon {
+  width: 52px;
+  height: 52px;
+  transition: transform 0.25s ease;
+}
+
+.adm-action-icon-primary { background: linear-gradient(135deg, #696cff 0%, #5f61e6 100%); }
+.adm-action-icon-success { background: linear-gradient(135deg, #71dd37 0%, #56b329 100%); }
+
+.adm-action-card .card-body {
+  color: inherit;
+}
+
+.adm-action-card:hover h6 {
+  color: #696cff !important;
+}
+</style>

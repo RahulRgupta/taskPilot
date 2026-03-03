@@ -1,0 +1,51 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-0">
+      <div class="breadcrumb-title">
+        <a href="/organization/dashboard"><i class="fas fa-home-alt"></i></a>
+      </div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item" aria-current="page">Organization</li>
+            <li class="breadcrumb-item active" aria-current="page">Projects</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <a href="/organization/projects/new" class="btn btn-primary"><i class="ti ti-plus me-1"></i> New Project</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header border-bottom">
+      <div class="d-flex justify-content-between">
+        <h5 class="card-title mb-2">Projects</h5>
+      </div>
+    </div>
+    <div class="card-datatable table-responsive">
+      <table id="projectsTable" class="table border-top">
+        <thead>
+          <tr>
+            <th>Actions</th>
+            <th>ID</th>
+            <th>Project</th>
+            <th>Created By</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Members</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dt-action-btn {
+    background: none; border: none; font-size: 1.25rem;
+    color: #6e6b7b; cursor: pointer; padding: 0.25rem 0.5rem;
+    border-radius: 4px; line-height: 1;
+  }
+  .dt-action-btn:hover { background: #f3f2f7; }
+</style>

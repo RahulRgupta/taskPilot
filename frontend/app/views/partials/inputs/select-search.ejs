@@ -1,0 +1,89 @@
+<!-- Include Tom Select CSS/JS -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+<style>
+  /* Clean UI fix */
+  .ts-wrapper.single .ts-control {
+    height: 38px;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .ts-dropdown {
+    border-radius: 0.375rem;
+    z-index: 9999;
+  }
+
+  .ts-control input {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+</style>
+
+<div class="<%= wrapperClass %> position-relative">
+  <% if (typeof inputLabel !== 'undefined' && inputLabel) { %>
+    <label class="form-label">
+      <%= inputLabel %>
+      <% if (typeof isMandatory !== 'undefined' && isMandatory === true) { %>
+        <span class="text-danger">*</span>
+      <% } %>
+    </label>
+  <% } %>
+
+  <!-- Note: do not add 'form-select' class here; TomSelect manages styling -->
+  <select
+    id="<%= inputId %>"
+    name="<%= inputId %>"
+    class="<%= typeof customClass !== 'undefined' ? customClass : '' %>"
+  >
+    <option value="">Select option</option>
+
+    <% if (typeof inputOptions !== 'undefined' && inputOptions.length > 0) { %>
+      <% inputOptions.forEach(element => { %>
+        <option 
+          value="<%= element.id %>" 
+          <%= element.disabled ? 'disabled' : '' %>
+          <%= element.id == value ? "selected" : "" %>
+        >
+          <%= element.name %>
+        </option>
+      <% }) %>
+    <% } %>
+  </select>
+
+  <label for="<%= inputId.replace('[]', '') %>" class="invalid-feedback"></label>
+</div>
+
+<script>
+
+  (function(){
+    var selector = "#<%= inputId %>";
+    var allowCreate = <%= (typeof locals.allowCreate !== 'undefined' && locals.allowCreate) ? 'true' : 'false' %>;
+    var placeholder = '<%= (typeof placeholder !== "undefined" && placeholder) ? placeholder : "Search options..." %>';
+
+    var options = {
+      create: allowCreate,
+      createOnBlur: allowCreate,
+      placeholder: placeholder,
+      maxItems: 1
+    };
+
+    if (allowCreate) {
+      options.createFilter = function(input) {
+        var normalized = (input||'').trim().toLowerCase();
+        var opts = this.options ? Object.values(this.options) : [];
+        return !opts.some(function(opt){ return ((opt.text||'')+"").trim().toLowerCase() === normalized; });
+      };
+      options.render = {
+        option_create: function(data, escape) {
+          return '<div class="create">Add new: <strong>' + escape(data.input) + '</strong></div>';
+        }
+      };
+    }
+
+    new TomSelect(selector, options);
+  })();
+</script>

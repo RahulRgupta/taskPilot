@@ -1,0 +1,151 @@
+.card_btn {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  color: #fff !important;
+  /* border-bottom-left-radius: 117%; */
+  border-radius: 111px !important;
+  padding: 10px !important;
+  -webkit-box-shadow: 14px 16px 20px -9px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 14px 16px 20px -9px rgba(0, 0, 0, 0.75);
+  box-shadow: 16px 7px 23px 0px rgba(0, 0, 0, 0.75);
+}
+.card_count {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  height: 25px;
+  width: 25px;
+  border-radius: 100%;
+  border: 1px solid #ccc;
+  background: #0d9488;
+  color: #fff;
+  text-align: center;
+}
+
+.checkbox-animate label {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Hide default checkbox */
+.checkbox-animate label input {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+/* Custom checkbox design */
+.input-check {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+  position: relative;
+  transition: all 0.3s ease;
+  margin-right: 8px;
+}
+
+/* Checkmark animation */
+.input-check::before {
+  content: "";
+  width: 8px;
+  height: 4px;
+  border-bottom: 2px solid white;
+  border-left: 2px solid white;
+  position: absolute;
+  top: 6px;
+  left: 5px;
+  transform: scale(0) rotate(-45deg);
+  transition: all 0.3s ease;
+}
+
+/* Checkbox checked state */
+.checkbox-animate label input:checked ~ .input-check {
+  background-color: #06b1c5;
+  border-color: #06b1c5;
+  animation: checkBounce 0.4s ease;
+}
+
+/* Checkmark appears when checked */
+.checkbox-animate label input:checked ~ .input-check::before {
+  transform: scale(1) rotate(-45deg);
+}
+
+/* Checkbox bounce effect */
+@keyframes checkBounce {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.2, 0.8);
+  }
+  60% {
+    transform: scale(0.9, 1.1);
+  }
+  80% {
+    transform: scale(1.1, 0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#listTable th,
+#listTable td {
+  white-space: nowrap;
+}
+
+/* Change accordion header background and text color */
+.accordion-header .accordion-button {
+  background-color: #f5f5f5; /* Light gray background */
+  color: #333; /* Dark text */
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+  /* When accordion is open */
+  .accordion-button:not(.collapsed) {
+    background-color: #e0e0e0; /* Slightly darker on open */
+    color: #000;
+  }
+
+  .scrollable-permissions {
+    max-height: 300px; /* Adjust height as needed */
+    overflow-y: auto;
+    border: 1px solid #ddd; /* Optional: Adds a border */
+    padding: 10px;
+  }
+
+/* ── Sidebar Styling ── */
+.bg-menu-theme.layout-menu {
+  background-color: #f0eef9 !important;
+  border-right: 1px solid #e2ddf5;
+}
+
+.bg-menu-theme .menu-inner-shadow {
+  background: linear-gradient(#f0eef9 41%, rgba(240, 238, 249, 0.11) 95%, rgba(240, 238, 249, 0)) !important;
+}
+
+.bg-menu-theme .menu-link {
+  color: #4a4458 !important;
+}
+
+.bg-menu-theme .menu-link:hover,
+.bg-menu-theme .menu-link:focus {
+  color: #7367f0 !important;
+  background-color: rgba(115, 103, 240, 0.08) !important;
+}
+
+.bg-menu-theme .menu-link .menu-icon {
+  color: #7e7593 !important;
+}
+
+.bg-menu-theme .menu-link:hover .menu-icon {
+  color: #7367f0 !important;
+}

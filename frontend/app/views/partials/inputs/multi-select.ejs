@@ -1,0 +1,89 @@
+<style>
+  .options-container {
+    display: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+  }
+
+  .form-select {
+    cursor: pointer;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    width: 100%;
+    text-align: left;
+  }
+</style>
+
+<div class="<%= wrapperClass %> position-relative">
+
+  <% if (typeof inputLabel !== 'undefined' && inputLabel) { %>
+  <label class="form-label">
+    <%= inputLabel %>
+    <% if (typeof isMandatory !== 'undefined' && isMandatory === true) { %>
+    <span class="text-danger">*</span>
+    <% } %>
+  </label>
+  <% } %>
+
+  <!-- Dropdown Button -->
+  <button class="form-select" type="button" id="<%= inputId %>DropdownButton"
+    onclick="toggleOptionsContainer('<%= inputId %>OptionsContainer')">
+    <%= value && value.length > 0 ? value.map(v => inputOptions.find(option => option.id === v)?.name).join(', ') : placeholder %>
+  </button>
+
+  <!-- Options Container -->
+  <div id="<%= inputId %>OptionsContainer" class="options-container border rounded position-absolute bg-white"
+    style="display: none; max-height: 200px; overflow-y: auto; width: 100%;">
+    <% if (typeof inputOptions !== 'undefined' && inputOptions.length > 0) { %>
+    <% inputOptions.forEach(element => { %>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" name="<%= inputId %>[]" value="<%= element.id %>"
+        <%= Array.isArray(value) && value.includes(element.id) ? 'checked' : '' %>
+        onchange="updateSelectedOptions('<%= inputId %>DropdownButton', '<%= inputId %>','<%= placeholder %>')">
+      <label class="form-check-label">
+        <%= element.name %>
+      </label>
+    </div>
+    <% }) %>
+    <% } else { %>
+    <p class="text-muted m-2">No options available</p>
+    <% } %>
+  </div>
+
+  <label for="<%= inputId %>" class="invalid-feedback"></label>
+</div>
+
+<script>
+  // Toggle visibility of the options container
+  function toggleOptionsContainer(containerId) {
+    const container = document.getElementById(containerId);
+    container.style.display = container.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // Update button text with selected options
+  function updateSelectedOptions(buttonId, inputId, placeholder) {
+    const checkboxes = document.querySelectorAll(`input[name="${inputId}[]"]:checked`);
+    const selectedValues = Array.from(checkboxes).map(cb => cb.nextElementSibling.textContent.trim());
+    document.getElementById(buttonId).innerText = selectedValues.length > 0
+      ? selectedValues.join(', ')
+      : placeholder;
+  }
+
+  // Close options container when clicking outside
+  document.addEventListener('click', function (event) {
+    const dropdownButton = document.getElementById('<%= inputId %>DropdownButton');
+    const optionsContainer = document.getElementById('<%= inputId %>OptionsContainer');
+    if (!dropdownButton.contains(event.target) && !optionsContainer.contains(event.target)) {
+      optionsContainer.style.display = 'none';
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    updateSelectedOptions('<%= inputId %>DropdownButton', '<%= inputId %>', '<%= placeholder %>');
+  });
+</script>

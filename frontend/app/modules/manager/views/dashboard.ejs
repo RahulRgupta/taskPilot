@@ -1,0 +1,217 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manager /</span> Dashboard</h4>
+
+  <!-- Organization Info Card - Enhanced -->
+  <div class="card mg-dashboard-card mg-info-card mb-4 overflow-hidden">
+    <div class="card-body p-4">
+      <div class="d-flex align-items-center flex-wrap gap-3">
+        <div class="mg-avatar-wrapper flex-shrink-0">
+          <span class="mg-avatar-initial rounded-3 d-flex align-items-center justify-content-center">
+            <i class="ti ti-building-community ti-lg text-white"></i>
+          </span>
+        </div>
+        <div class="flex-grow-1 min-w-0">
+          <h5 class="card-title mb-1 fw-bold"><%= organization.name %></h5>
+          <p class="text-muted mb-0 d-flex align-items-center gap-2">
+            <i class="ti ti-mail" style="font-size: 0.9rem; opacity: 0.9;"></i>
+            <%= organization.email %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards - Modern Design -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-sm-6 col-xl-6">
+      <div class="card mg-dashboard-card mg-stat-card mg-stat-projects h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Projects</p>
+              <h3 class="mb-0 fw-bold"><%= stats.projects %></h3>
+            </div>
+            <div class="mg-stat-icon-wrapper mg-stat-icon-primary rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-folders ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-6">
+      <div class="card mg-dashboard-card mg-stat-card mg-stat-employees h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Employees</p>
+              <h3 class="mb-0 fw-bold"><%= stats.employees %></h3>
+            </div>
+            <div class="mg-stat-icon-wrapper mg-stat-icon-warning rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-users ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions - Card Grid -->
+  <div class="card mg-dashboard-card">
+    <div class="card-header d-flex align-items-center py-3">
+      <i class="ti ti-bolt me-2 text-primary"></i>
+      <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-sm-6">
+          <a href="/manager/projects" class="mg-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="mg-action-icon mg-action-icon-primary rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-folders ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">View Projects</h6>
+              <p class="text-muted small mb-0">Browse and manage your projects</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6">
+          <a href="/manager/projects/new" class="mg-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="mg-action-icon mg-action-icon-success rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-folder-plus ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">Create Project</h6>
+              <p class="text-muted small mb-0">Start a new project</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if (projects && projects.length > 0) { %>
+  <div class="card mg-dashboard-card mt-4">
+    <div class="card-header d-flex align-items-center justify-content-between py-3">
+      <div class="d-flex align-items-center">
+        <i class="ti ti-list-details me-2 text-primary"></i>
+        <h5 class="mb-0 fw-semibold">Recent Projects</h5>
+      </div>
+      <a href="/manager/projects" class="btn btn-sm btn-outline-primary">
+        <i class="ti ti-arrow-right me-1"></i> View all
+      </a>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th><i class="ti ti-briefcase me-1 text-muted"></i> Name</th>
+            <th><i class="ti ti-file-text me-1 text-muted"></i> Description</th>
+            <th><i class="ti ti-users me-1 text-muted"></i> Employees</th>
+            <th><i class="ti ti-calendar me-1 text-muted"></i> Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% projects.slice(0, 5).forEach(p => { %>
+          <tr>
+            <td><strong><%= p.name %></strong></td>
+            <td><%= p.description || '—' %></td>
+            <td><%= p.employees ? p.employees.length : 0 %></td>
+            <td><%= new Date(p.createdAt).toLocaleDateString() %></td>
+            <td>
+              <a href="/manager/projects/<%= p.id %>" class="btn btn-sm btn-outline-primary">
+                <i class="ti ti-eye me-1"></i> View / Assign
+              </a>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<style>
+/* Manager Dashboard - Enhanced UI (same as Organization) */
+.mg-dashboard-card {
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.mg-dashboard-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Organization Info Card */
+.mg-info-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+.mg-info-card .card-title,
+.mg-info-card .text-muted {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.mg-info-card .text-muted {
+  opacity: 0.9;
+}
+
+.mg-avatar-wrapper .mg-avatar-initial {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+/* Stat Cards */
+.mg-stat-card {
+  border-left: 4px solid transparent;
+}
+
+.mg-stat-card.mg-stat-projects { border-left-color: #696cff; }
+.mg-stat-card.mg-stat-employees { border-left-color: #ffab00; }
+
+.mg-stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+}
+
+.mg-stat-icon-primary { background: linear-gradient(135deg, #696cff 0%, #5f61e6 100%); }
+.mg-stat-icon-warning { background: linear-gradient(135deg, #ffab00 0%, #ff8f00 100%); }
+
+/* Quick Action Cards */
+.mg-action-card {
+  background: #f8f9fa;
+  transition: all 0.25s ease;
+}
+
+.mg-action-card:hover {
+  background: #fff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.mg-action-card:hover .mg-action-icon {
+  transform: scale(1.05);
+}
+
+.mg-action-icon {
+  width: 52px;
+  height: 52px;
+  transition: transform 0.25s ease;
+}
+
+.mg-action-icon-primary { background: linear-gradient(135deg, #696cff 0%, #5f61e6 100%); }
+.mg-action-icon-success { background: linear-gradient(135deg, #71dd37 0%, #56b329 100%); }
+
+.mg-action-card .card-body {
+  color: inherit;
+}
+
+.mg-action-card:hover h6 {
+  color: #696cff !important;
+}
+</style>

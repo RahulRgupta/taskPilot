@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Role enum for user types
+enum Role {
+  ADMIN
+  ORGANIZATION
+  MANAGER
+  EMPLOYEE
+}
+
+// Organization model
+model Organization {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  address     String?
+  phone       String?  @unique
+  isActive    Boolean  @default(true)
+  isVerified  Boolean  @default(false)  // Admin must verify before org can login (self-registered)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]   // Users belonging to this organization
+  projects    Project[]
+}
+
+// User model for authentication
+model User {
+  id             Int          @id @default(autoincrement())
+  email          String       @unique
+  name           String?
+  password       String       // Hashed password
+  role           Role         @default(EMPLOYEE)
+  isActive       Boolean      @default(true)
+  organizationId Int?         // Null for ADMIN, required for others
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  // Join details (when employee/manager joins company)
+  joinedAt       DateTime    @default(now()) // Date when they joined the company
+  employeeCode   String?      // Internal employee/manager ID (e.g. EMP001)
+  department     String?     // Department name
+  jobTitle       String?     // Job title / designation
+  phone          String?     // Contact phone
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  projectsCreated Project[]   @relation("ProjectCreator")
+  projectAssignments ProjectEmployee[]
+  tasksAssigned  Task[]       @relation("TaskAssignee")
+  tasksCreated   Task[]       @relation("TaskCreator")
+}
+
+// Project - created by manager, belongs to organization
+model Project {
+  id             Int            @id @default(autoincrement())
+  name           String
+  description    String?
+  status         ProjectStatus  @default(PLANNING)
+  priority       ProjectPriority @default(MEDIUM)
+  startDate      DateTime?
+  endDate        DateTime?
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdById    Int      // Manager who created it
+  createdBy      User     @relation("ProjectCreator", fields: [createdById], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  employees      ProjectEmployee[]
+  tasks          Task[]
+}
+
+enum ProjectStatus {
+  PLANNING
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+}
+
+enum ProjectPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus {
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model Task {
+  id             Int        @id @default(autoincrement())
+  title          String
+  description    String?
+  status         TaskStatus @default(ASSIGNED)
+  projectId      Int
+  project        Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assignedToId   Int
+  assignedTo     User       @relation("TaskAssignee", fields: [assignedToId], references: [id])
+  createdById    Int
+  createdBy      User       @relation("TaskCreator", fields: [createdById], references: [id])
+  assignDate     DateTime?
+  dueDate        DateTime?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+// Project employees - which employees are assigned to a project
+model ProjectEmployee {
+  id         Int      @id @default(autoincrement())
+  projectId  Int
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedAt DateTime @default(now())
+  @@unique([projectId, userId])
+}

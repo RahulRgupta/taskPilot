@@ -1,0 +1,60 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-0">
+      <div class="breadcrumb-title">
+        <a href="/admin/dashboard"><i class="fas fa-home-alt"></i></a>
+      </div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item" aria-current="page">Admin</li>
+            <li class="breadcrumb-item active" aria-current="page">Organizations</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <a href="/admin/organizations/new" class="btn btn-primary"><i class="ti ti-plus me-1"></i> New Organization</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header border-bottom">
+      <div class="d-flex justify-content-between">
+        <h5 class="card-title mb-2">Organizations</h5>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <select id="orgStatusFilter" class="form-select w-auto">
+          <option value="" selected>All Organizations</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+          <option value="pending">Pending Verification</option>
+        </select>
+      </div>
+    </div>
+    <div class="card-datatable table-responsive">
+      <table id="organizationsTable" class="table border-top">
+        <thead>
+          <tr>
+            <th>Actions</th>
+            <th>ID</th>
+            <th>Organization</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Users</th>
+            <th>Status</th>
+            <th>Verified</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dt-action-btn {
+    background: none; border: none; font-size: 1.25rem;
+    color: #6e6b7b; cursor: pointer; padding: 0.25rem 0.5rem;
+    border-radius: 4px; line-height: 1; text-decoration: none;
+  }
+  .dt-action-btn:hover { background: #f3f2f7; }
+</style>

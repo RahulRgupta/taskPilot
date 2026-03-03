@@ -1,0 +1,48 @@
+<div class="<%= wrapperClass %>">
+  
+  <% if ( typeof inputLabel !== 'undefined' && inputLabel ) { %>
+    <label class="form-label"><%= inputLabel %>
+    
+    <% if (typeof isMandatory !== 'undefined' && isMandatory === true) { %>
+          <span class="text-danger">*</span>
+        <% } %>
+    
+    </label>
+    <% } %>
+  
+  <input 
+    type="<%= inputType || 'datetime-local' %>"
+    id="<%= inputId %>"
+    name="<%= inputId %>"
+    class="form-control date-time-picker <%= typeof customClass !== 'undefined' ? customClass : '' %>"
+    placeholder="<%= placeholder %>"
+    <%= typeof disabled !== 'undefined' && disabled ? 'disabled' : '' %>
+    <%= typeof required !== 'undefined' && required ? 'required' : '' %>
+    value="<%= value %>"
+    min="<%= typeof minDate !== 'undefined' ? minDate : '' %>"
+    max="<%= typeof maxDate !== 'undefined' ? maxDate : '' %>"
+  >
+
+  <% if (typeof hintText !== 'undefined' && hintText) { %>
+    <small class="form-text text-muted mt-1">Hint: <%= hintText %></small>
+  <% } %>
+ 
+  <div class="invalid-feedback"></div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const picker = document.getElementById('<%= inputId %>');
+    if (picker) {
+      picker.addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        const now = new Date();
+        if (selectedDate <= now) {
+         // this.setCustomValidity('Please select a future date and time');
+        } else {
+          this.setCustomValidity('');
+        }
+      });
+    }
+  });
+  </script>

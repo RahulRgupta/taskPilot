@@ -1,0 +1,355 @@
+<div class="login-page-wrapper">
+  <div class="login-container">
+    <!-- Left: Branding & Illustration -->
+    <div class="login-brand-section">
+      <div class="login-brand-content">
+        <div class="login-logo">
+          <img src="/assets/img/logos/task-pilot-icon.svg" alt="Task Pilot" class="login-logo-img">
+        </div>
+        <h1 class="login-brand-title">Task Pilot</h1>
+        <p class="login-brand-subtitle">Navigate your work with clarity. Steer projects to success.</p>
+        <div class="login-features">
+          <div class="login-feature">
+            <i class="ti ti-check"></i>
+            <span>Assign & track tasks in real-time</span>
+          </div>
+          <div class="login-feature">
+            <i class="ti ti-check"></i>
+            <span>Collaborate with your team</span>
+          </div>
+          <div class="login-feature">
+            <i class="ti ti-check"></i>
+            <span>Never miss a deadline</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Sign-in Form -->
+    <div class="login-form-section">
+      <div class="login-form-inner">
+        <div class="login-form-header">
+          <h2 class="login-form-title">Welcome back</h2>
+          <p class="login-form-subtitle">Sign in with your admin or organization account</p>
+        </div>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div class="login-alert alert-danger">
+          <i class="ti ti-alert-circle"></i>
+          <span><%= typeof error === 'string' ? error : 'Invalid credentials' %></span>
+        </div>
+        <% } %>
+
+        <form action="/auth/web-login" method="POST" class="login-form">
+          <div class="login-field">
+            <label class="login-label">Email</label>
+            <div class="login-input-wrap">
+              <i class="ti ti-mail login-input-icon"></i>
+              <input type="email" class="login-input" id="email" name="email" placeholder="you@company.com" required autofocus />
+            </div>
+          </div>
+          <div class="login-field">
+            <label class="login-label">Password</label>
+            <div class="login-input-wrap">
+              <i class="ti ti-lock login-input-icon"></i>
+              <input type="password" id="password" class="login-input" name="password" placeholder="Enter your password" required />
+              <button type="button" class="login-toggle-password" id="togglePassword" aria-label="Toggle password">
+                <i class="ti ti-eye-off"></i>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="login-submit">
+            <span>Sign in</span>
+            <i class="ti ti-arrow-right"></i>
+          </button>
+        </form>
+
+        <p class="login-footer">
+          Don't have an organization? <a href="/register">Register here</a>
+        </p>
+        <p class="login-footer">
+          © <script>document.write(new Date().getFullYear());</script> Task Pilot. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.login-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f7fa;
+}
+
+.login-container {
+  display: flex;
+  width: 100%;
+  max-width: 960px;
+  min-height: 560px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.login-brand-section {
+  flex: 1;
+  background: #0d9488;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.login-brand-content {
+  color: #fff;
+}
+
+.login-logo {
+  margin-bottom: 1.5rem;
+}
+
+.login-logo-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.login-brand-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.login-brand-subtitle {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin: 0 0 2rem 0;
+}
+
+.login-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.login-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+.login-feature i {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.login-form-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+}
+
+.login-form-inner {
+  width: 100%;
+  max-width: 360px;
+}
+
+.login-form-header {
+  margin-bottom: 2rem;
+}
+
+.login-form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+}
+
+.login-form-subtitle {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.login-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.login-alert.alert-danger {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.login-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-input-icon {
+  position: absolute;
+  left: 1rem;
+  font-size: 1.1rem;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.login-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  font-size: 0.95rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  color: #1e293b;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-input::placeholder {
+  color: #94a3b8;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.login-toggle-password {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.login-toggle-password:hover {
+  color: #64748b;
+}
+
+.login-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: #0d9488;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+  background: #0f766e;
+}
+
+.login-submit:active {
+  transform: translateY(0);
+}
+
+.login-footer {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.login-footer a {
+  color: #0d9488;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    max-width: 420px;
+  }
+
+  .login-brand-section {
+    padding: 2rem;
+    min-height: auto;
+  }
+
+  .login-brand-title {
+    font-size: 1.5rem;
+  }
+
+  .login-features {
+    display: none;
+  }
+
+  .login-form-section {
+    padding: 2rem;
+  }
+}
+</style>
+
+<script>
+(function() {
+  var toggleBtn = document.getElementById('togglePassword');
+  var passwordInput = document.getElementById('password');
+  if (toggleBtn && passwordInput) {
+    toggleBtn.addEventListener('click', function() {
+      var icon = toggleBtn.querySelector('i');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        if (icon) icon.classList.replace('ti-eye-off', 'ti-eye');
+      } else {
+        passwordInput.type = 'password';
+        if (icon) icon.classList.replace('ti-eye', 'ti-eye-off');
+      }
+    });
+  }
+})();
+</script>

@@ -1,0 +1,23 @@
+<div class="row mb-3">
+  <% if ( typeof inputLabel !== 'undefined' && inputLabel ) { %>
+    <label class="col-sm-3 col-form-label"><%= inputLabel %></label>
+  <% } %>
+
+  <div class="col-sm-3">
+    <select
+      id="<%= inputId %>"
+      name="<%= inputId %>"
+      class="form-select"
+    >
+      <option value="">Select option</option>
+
+      <% if( typeof inputOptions !== 'undefined' && inputOptions.length > 0 ){ %>
+      <% inputOptions.forEach(element => { %>
+        <option value="<%= element.id %>" <%= element.id === value ? "selected" : "" %> ><%= element.name %></option>
+      <% }) %>
+      <% } %>
+
+    </select>
+    <label for="<%= inputId %>" class="invalid-feedback"></label>
+  </div>
+</div>

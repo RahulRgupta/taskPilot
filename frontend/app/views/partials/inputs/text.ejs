@@ -1,0 +1,60 @@
+<div class="<%= wrapperClass %>">
+
+  <% if (typeof inputLabel !== 'undefined' && inputLabel) { %>
+  <label class="form-label"><%= inputLabel %>
+    <% if (typeof isMandatory !== 'undefined' && isMandatory === true) { %>
+    <span class="text-danger">*</span>
+    <% } %>
+  </label>
+  <% } %>
+
+  <% if (typeof inputType !== "undefined" && inputType === "file") { %>
+  <a href="javascript:;" class="btn btn-outline-primary d-block file-upload-btn">
+    <i class="ti ti-upload"></i> Choose file
+  </a>
+  <input type="<%= inputType %>" id="<%= inputId %>" name="<%= inputId %>" class="form-control d-none"
+    placeholder="<%= placeholder %>" <%= typeof disabled !== 'undefined' && disabled ? 'disabled' : '' %>
+    <% if (typeof accept !== 'undefined' && accept) { %> accept="<%= accept %>" <% } %>
+    <% if (typeof onChange !== 'undefined' && onChange) { %> onchange="<%= onChange %>" <% } %> value="<%= value %>">
+  <% } else { %>
+  <input type="<%= typeof inputType !== 'undefined' && inputType ? inputType : 'text' %>" id="<%= inputId %>"
+    name="<%= typeof inputName !== 'undefined' && inputName ? inputName : inputId %>" class="form-control" placeholder="<%= placeholder %>"
+    <%= typeof disabled !== 'undefined' && disabled ? 'disabled' : '' %> <% if (['displayOrder'].includes(inputId)) { %>
+    min="1" <% } %> <% if (typeof accept !== 'undefined' && accept) { %> accept="<%= accept %>" <% } %>
+    <% if (typeof maxlength !== 'undefined' && maxlength) { %> maxlength="<%= maxlength %>" <% } %>
+    <% if (typeof onChange !== 'undefined' && onChange) { %> onchange="<%= onChange %>" <% } %> value="<%= value %>">
+  <% } %>
+
+  <% if (typeof hintText !== 'undefined' && hintText) { %>
+  <label class="mt-2">Hint: <%= hintText %></label>
+  <% } %>
+
+  <!-- Conditionally format 'for' attribute based on whether inputId has square brackets -->
+  <% if (inputId.includes('[')) { %>
+  <% const key = inputId.match(/\[(.*?)\]/)[1]; %> <!-- Extract key inside brackets -->
+  <% const baseId = inputId.replace(/\[.*?\]/, ''); %> <!-- Remove brackets from inputId -->
+  <label for="<%= baseId %>.<%= key %>" class="invalid-feedback"></label>
+  <% } else { %>
+  <label for="<%= inputId %>" class="invalid-feedback"></label>
+  <% } %>
+
+  <small id="<%= inputId %>Error" class="text-danger mt-1 d-block" style="display:<%= typeof errorMessage !== 'undefined' && errorMessage ? 'block' : 'none' %>;"><%= typeof errorMessage !== 'undefined' && errorMessage ? errorMessage : '' %></small>
+
+  <% if (typeof inputType !== "undefined" && inputType === "file" && value !== "") { %>
+  <div class="<%= inputId %>_preview {
+      min-width: 100px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+  }">
+    <img src="<%= value.startsWith('http') ? value : ajaxUrl + value %>" alt="Uploaded Image" class="img-thumbnail" style="max-width: 100px;">
+  </div>
+  <% } else if (typeof inputType !== "undefined" && inputType === "file") { %>
+  <div class="<%= inputId %>_preview {
+    min-width: 100px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}"></div>
+  <% } %>
+</div>

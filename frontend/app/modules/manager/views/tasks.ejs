@@ -1,0 +1,143 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-0">
+      <div class="breadcrumb-title">
+        <a href="/manager/dashboard"><i class="fas fa-home-alt"></i></a>
+      </div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a href="/manager/projects">Projects</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= project.name %> — Tasks</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTaskModal">
+      <i class="ti ti-plus me-1"></i> New Task
+    </button>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="row g-4" id="kanbanBoard">
+    <!-- ASSIGNED Column -->
+    <div class="col-md-4">
+      <div class="card kanban-col shadow-none border">
+        <div class="card-header d-flex align-items-center justify-content-between pb-2" style="background: #fff3e0;">
+          <h6 class="mb-0"><span class="badge bg-label-warning me-2">Assigned</span></h6>
+          <span class="badge bg-warning text-white task-count" data-status="ASSIGNED">0</span>
+        </div>
+        <div class="card-body kanban-list p-3" data-status="ASSIGNED" id="col-ASSIGNED"
+             style="min-height: 280px; max-height: 70vh; overflow-y: auto; background: #fffdf7;"></div>
+      </div>
+    </div>
+    <!-- IN_PROGRESS Column -->
+    <div class="col-md-4">
+      <div class="card kanban-col shadow-none border">
+        <div class="card-header d-flex align-items-center justify-content-between pb-2" style="background: #e3f2fd;">
+          <h6 class="mb-0"><span class="badge bg-label-info me-2">In Progress</span></h6>
+          <span class="badge bg-info text-white task-count" data-status="IN_PROGRESS">0</span>
+        </div>
+        <div class="card-body kanban-list p-3" data-status="IN_PROGRESS" id="col-IN_PROGRESS"
+             style="min-height: 280px; max-height: 70vh; overflow-y: auto; background: #f8fcff;"></div>
+      </div>
+    </div>
+    <!-- COMPLETED Column -->
+    <div class="col-md-4">
+      <div class="card kanban-col shadow-none border">
+        <div class="card-header d-flex align-items-center justify-content-between pb-2" style="background: #e8f5e9;">
+          <h6 class="mb-0"><span class="badge bg-label-success me-2">Completed</span></h6>
+          <span class="badge bg-success text-white task-count" data-status="COMPLETED">0</span>
+        </div>
+        <div class="card-body kanban-list p-3" data-status="COMPLETED" id="col-COMPLETED"
+             style="min-height: 280px; max-height: 70vh; overflow-y: auto; background: #f7fdf8;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Task Modal -->
+<div class="modal fade" id="createTaskModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create New Task</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="createTaskForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label" for="taskTitle">Title <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="taskTitle" name="title" required placeholder="Task title">
+            <div class="invalid-feedback" id="taskTitleError"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="taskDescription">Description</label>
+            <textarea class="form-control" id="taskDescription" name="description" rows="3" placeholder="Task details..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="taskAssignee">Assign To <span class="text-danger">*</span></label>
+            <select class="form-select" id="taskAssignee" name="assignedToId" required>
+              <option value="">Select a member</option>
+              <% if (typeof members !== 'undefined' && members) { %>
+                <% members.forEach(function(m) { %>
+                  <option value="<%= m.id %>"><%= m.name || m.email %></option>
+                <% }); %>
+              <% } %>
+            </select>
+            <div class="invalid-feedback" id="taskAssigneeError"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="taskAssignDate">Assign Date</label>
+              <input type="date" class="form-control" id="taskAssignDate" name="assignDate">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" for="taskDueDate">Due Date</label>
+              <input type="date" class="form-control" id="taskDueDate" name="dueDate">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="createTaskBtn">Create Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id="projectId" value="<%= project.id %>">
+
+<style>
+  .kanban-card {
+    background: #fff;
+    border: 1px solid #e7e7e8;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 10px;
+    cursor: grab;
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  .kanban-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .kanban-card:active { cursor: grabbing; }
+  .kanban-card .card-title { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; }
+  .kanban-card .card-desc { font-size: 0.8rem; color: #6e6b7b; margin-bottom: 8px; }
+  .kanban-card .card-meta { font-size: 0.75rem; color: #a5a3ae; display: flex; align-items: center; justify-content: space-between; }
+  .kanban-card .avatar-xs {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 600; color: #fff;
+  }
+  .kanban-card .delete-task {
+    opacity: 0; transition: opacity 0.15s;
+    background: none; border: none; color: #ea5455; cursor: pointer; font-size: 0.9rem; padding: 2px 4px;
+  }
+  .kanban-card:hover .delete-task { opacity: 1; }
+  .sortable-ghost { opacity: 0.4; }
+  .sortable-drag { box-shadow: 0 8px 24px rgba(0,0,0,0.15); transform: rotate(2deg); }
+  .kanban-list { border-radius: 0 0 8px 8px; }
+  .kanban-list::-webkit-scrollbar { width: 6px; }
+  .kanban-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.04); border-radius: 3px; }
+  .kanban-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+</style>

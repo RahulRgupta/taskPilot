@@ -1,0 +1,100 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title">
+      <a href="/admin/dashboard"><i class="fas fa-home-alt"></i></a>
+    </div>
+    <div class="ps-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 p-0">
+          <li class="breadcrumb-item">Admin</li>
+          <li class="breadcrumb-item"><a href="/admin/organizations">Organizations</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Create</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <% if (typeof errors !== 'undefined' && errors && errors._form) { %>
+      <div class="alert alert-danger mb-3" role="alert"><%= errors._form %></div>
+      <% } %>
+      <form id="createOrgForm" action="/admin/organizations" method="POST" class="row g-3">
+        <div class="row g-3">
+          <%- include('../../../views/partials/inputs/text.ejs', {
+            wrapperClass: 'col-12 col-md-6',
+            inputLabel: 'Organization Name',
+            inputId: 'name',
+            isMandatory: true,
+            placeholder: 'Enter organization name',
+            value: typeof form !== 'undefined' && form && form.name ? form.name : '',
+            errorMessage: typeof errors !== 'undefined' && errors && errors.name ? errors.name : undefined
+          }); %>
+          <%- include('../../../views/partials/inputs/text.ejs', {
+            wrapperClass: 'col-12 col-md-6',
+            inputType: 'email',
+            inputLabel: 'Email',
+            inputId: 'email',
+            isMandatory: true,
+            placeholder: 'Enter email',
+            value: typeof form !== 'undefined' && form && form.email ? form.email : '',
+            errorMessage: typeof errors !== 'undefined' && errors && errors.email ? errors.email : undefined
+          }); %>
+          <%- include('../../../views/partials/inputs/text.ejs', {
+            wrapperClass: 'col-12 col-md-6',
+            inputLabel: 'Address',
+            inputId: 'address',
+            placeholder: 'Enter address',
+            value: typeof form !== 'undefined' && form && form.address ? form.address : '',
+            errorMessage: typeof errors !== 'undefined' && errors && errors.address ? errors.address : undefined
+          }); %>
+          <%- include('../../../views/partials/inputs/text.ejs', {
+            wrapperClass: 'col-12 col-md-6',
+            inputType: 'tel',
+            inputLabel: 'Phone',
+            inputId: 'phone',
+            placeholder: 'Enter phone number',
+            value: typeof form !== 'undefined' && form && form.phone ? form.phone : '',
+            errorMessage: typeof errors !== 'undefined' && errors && errors.phone ? errors.phone : undefined
+          }); %>
+          <%- include('../../../views/partials/inputs/text.ejs', {
+            wrapperClass: 'col-12 col-md-6',
+            inputType: 'password',
+            inputLabel: 'Organization Login Password',
+            inputId: 'password',
+            isMandatory: true,
+            placeholder: 'Enter password (min 6 characters)',
+            value: '',
+            hintText: 'Used for organization login',
+            errorMessage: typeof errors !== 'undefined' && errors && errors.password ? errors.password : undefined
+          }); %>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Create Organization</button>
+            <a href="/admin/organizations" class="btn btn-outline-secondary ms-2">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('createOrgForm');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var params = new URLSearchParams();
+    params.append('name', (document.getElementById('name').value || '').trim());
+    params.append('email', (document.getElementById('email').value || '').trim());
+    params.append('password', document.getElementById('password').value || '');
+    var address = (document.getElementById('address').value || '').trim();
+    var phone = (document.getElementById('phone').value || '').trim();
+    if (address) params.append('address', address);
+    if (phone) params.append('phone', phone);
+
+    postForm('/admin/organizations', params);
+  });
+})();
+</script>

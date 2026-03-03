@@ -1,0 +1,199 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-0">
+      <div class="breadcrumb-title">
+        <a href="/organization/dashboard"><i class="fas fa-home-alt"></i></a>
+      </div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item">Organization</li>
+            <li class="breadcrumb-item"><a href="/organization/users">Users</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add User</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <a href="/organization/users" class="btn btn-outline-secondary"><i class="ti ti-arrow-left me-1"></i> Back</a>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <% if (typeof errors !== 'undefined' && errors && errors._form) { %>
+      <div class="alert alert-danger mb-3" role="alert"><%= errors._form %></div>
+      <% } %>
+      <form id="addUserForm" action="/organization/users" method="POST" class="row g-3">
+        <%- include('../../../views/partials/inputs/text.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputLabel: 'Name',
+          inputId: 'name',
+          isMandatory: true,
+          placeholder: 'Enter name',
+          value: typeof form !== 'undefined' && form && form.name ? form.name : '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.name ? errors.name : undefined
+        }); %>
+        <%- include('../../../views/partials/inputs/text.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputType: 'email',
+          inputLabel: 'Email',
+          inputId: 'email',
+          isMandatory: true,
+          placeholder: 'Enter email',
+          value: typeof form !== 'undefined' && form && form.email ? form.email : '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.email ? errors.email : undefined
+        }); %>
+        <%- include('../../../views/partials/inputs/text.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputType: 'password',
+          inputLabel: 'Password',
+          inputId: 'password',
+          isMandatory: true,
+          placeholder: 'Min 6 characters',
+          value: '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.password ? errors.password : undefined
+        }); %>
+        <%- include('../../../views/partials/inputs/select.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputLabel: 'Role',
+          inputId: 'role',
+          isMandatory: true,
+          value: typeof form !== 'undefined' && form && form.role ? form.role : '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.role ? errors.role : undefined,
+          inputOptions: [ { id: 'MANAGER', name: 'Manager' }, { id: 'EMPLOYEE', name: 'Employee' } ]
+        }); %>
+        <%- include('../../../views/partials/inputs/text.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputLabel: 'Joined date',
+          inputId: 'joinedAt',
+          inputType: 'date',
+          placeholder: '',
+          value: typeof form !== 'undefined' && form && form.joinedAt ? form.joinedAt : '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.joinedAt ? errors.joinedAt : undefined
+        }); %>
+        <%- include('../../../views/partials/inputs/text.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputLabel: 'Employee code',
+          inputId: 'employeeCode',
+          isMandatory: true,
+          placeholder: 'e.g. EMP001',
+          value: typeof form !== 'undefined' && form && form.employeeCode ? form.employeeCode : '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.employeeCode ? errors.employeeCode : undefined
+        }); %>
+        <%- include('../../../views/partials/inputs/text.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputLabel: 'Department',
+          inputId: 'department',
+          isMandatory: true,
+          placeholder: 'Enter department',
+          value: typeof form !== 'undefined' && form && form.department ? form.department : '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.department ? errors.department : undefined
+        }); %>
+        <%- include('../../../views/partials/inputs/text.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputLabel: 'Job title',
+          inputId: 'jobTitle',
+          isMandatory: true,
+          placeholder: 'Enter job title',
+          value: typeof form !== 'undefined' && form && form.jobTitle ? form.jobTitle : '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.jobTitle ? errors.jobTitle : undefined
+        }); %>
+        <%- include('../../../views/partials/inputs/text.ejs', {
+          wrapperClass: 'col-12 col-md-6',
+          inputLabel: 'Phone',
+          inputId: 'phone',
+          inputType: 'tel',
+          isMandatory: true,
+          placeholder: 'Enter phone',
+          value: typeof form !== 'undefined' && form && form.phone ? form.phone : '',
+          errorMessage: typeof errors !== 'undefined' && errors && errors.phone ? errors.phone : undefined
+        }); %>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Add User</button>
+          <a href="/organization/users" class="btn btn-outline-secondary ms-2">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('addUserForm');
+  if (!form) return;
+  var joinedAtEl = document.getElementById('joinedAt');
+  if (joinedAtEl && !joinedAtEl.value) {
+    var today = new Date();
+    joinedAtEl.value = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  }
+  var nameEl = document.getElementById('name');
+  var emailEl = document.getElementById('email');
+  var passwordEl = document.getElementById('password');
+  var roleEl = document.getElementById('role');
+  var employeeCodeEl = document.getElementById('employeeCode');
+  var departmentEl = document.getElementById('department');
+  var jobTitleEl = document.getElementById('jobTitle');
+  var phoneEl = document.getElementById('phone');
+  var nameErr = document.getElementById('nameError');
+  var emailErr = document.getElementById('emailError');
+  var passwordErr = document.getElementById('passwordError');
+  var roleErr = document.getElementById('roleError');
+  var employeeCodeErr = document.getElementById('employeeCodeError');
+  var departmentErr = document.getElementById('departmentError');
+  var jobTitleErr = document.getElementById('jobTitleError');
+  var phoneErr = document.getElementById('phoneError');
+
+  function showError(el, msg) {
+    if (el) { el.textContent = msg; el.style.display = msg ? 'block' : 'none'; }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = (nameEl && nameEl.value) ? nameEl.value.trim() : '';
+    var email = (emailEl && emailEl.value) ? emailEl.value.trim() : '';
+    var password = (passwordEl && passwordEl.value) || '';
+    var role = (roleEl && roleEl.value) || '';
+    var employeeCode = (employeeCodeEl && employeeCodeEl.value) ? employeeCodeEl.value.trim() : '';
+    var department = (departmentEl && departmentEl.value) ? departmentEl.value.trim() : '';
+    var jobTitle = (jobTitleEl && jobTitleEl.value) ? jobTitleEl.value.trim() : '';
+    var phone = (phoneEl && phoneEl.value) ? phoneEl.value.trim() : '';
+
+    var errors = {};
+    if (!name) errors.name = 'Name is required';
+    if (!email) errors.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = 'Please enter a valid email';
+    if (!password) errors.password = 'Password is required';
+    else if (password.length < 6) errors.password = 'Password must be at least 6 characters';
+    if (!role || !['MANAGER', 'EMPLOYEE'].includes(role)) errors.role = 'Please select a role';
+    if (!employeeCode) errors.employeeCode = 'Employee code is required';
+    if (!department) errors.department = 'Department is required';
+    if (!jobTitle) errors.jobTitle = 'Job title is required';
+    if (!phone) errors.phone = 'Phone is required';
+
+    showError(nameErr, errors.name || '');
+    showError(emailErr, errors.email || '');
+    showError(passwordErr, errors.password || '');
+    showError(roleErr, errors.role || '');
+    showError(employeeCodeErr, errors.employeeCode || '');
+    showError(departmentErr, errors.department || '');
+    showError(jobTitleErr, errors.jobTitle || '');
+    showError(phoneErr, errors.phone || '');
+
+    if (Object.keys(errors).length > 0) return;
+
+    var params = new URLSearchParams();
+    params.append('name', name);
+    params.append('email', email);
+    params.append('password', password);
+    params.append('role', role);
+    params.append('employeeCode', employeeCode);
+    params.append('department', department);
+    params.append('jobTitle', jobTitle);
+    params.append('phone', phone);
+    if (joinedAtEl && joinedAtEl.value) params.append('joinedAt', joinedAtEl.value);
+    if (typeof postForm === 'function') {
+      postForm('/organization/users', params);
+    } else {
+      form.submit();
+    }
+  });
+})();
+</script>

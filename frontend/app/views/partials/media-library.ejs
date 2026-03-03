@@ -1,0 +1,68 @@
+<!-- sectionName, sectionLabel, sectionValue, btnText, formats, size -->
+
+<div class="<%= typeof wrapperClass !== 'undefined' && wrapperClass ? wrapperClass : 'col-12 col-md-4' %>">
+  <div class="uploadPic">
+    <label class="form-label p-1 d-block"><%= sectionLabel %></label>
+
+    <input
+      type="hidden"
+      id="<%= sectionName %>"
+      name="<%= sectionName %>" 
+      value="<%= sectionValue %>" />
+  
+    <!-- input -->
+    <div class="<%= sectionName %>MediaAdd" <% if( sectionValue ){ %> style="display:none" <%  } %>>
+      <button
+        type="button"
+        class="btn btn-secondary mb-2 col-12" 
+        id="mediaLibraryBtn" 
+        data-placeholder="<%= sectionName %>"
+        >
+        <i class="bi bi-upload"></i> <%= btnText %>
+      </button>
+      <label for="<%= sectionName %>" class="invalid-feedback"></label>
+  
+      <label class="">
+        <ul>
+          <li>Accepted formats: <%= formats %></li>
+          <li>Size: <%= size %> MB</li>
+          <% if ( typeof dimension !== 'undefined' && dimension ) { %>
+          <li>Dimension (W x H): <%= dimension %></li>
+          <% } %>
+        </ul>
+      </label>
+    </div>
+  
+    <!-- preview-->
+    <div class="<%= sectionName %>MediaPreview" <% if( !sectionValue ){ %> style="display:none" <%  } %>>
+      <%
+        ext = sectionValue ? path.extname(sectionValue) : ''; 
+        thumbnail = '';
+        switch(ext){
+          case ".mp3" : thumbnail = '/admin/assets/images/audio.png'; break;
+          case ".mp4" : thumbnail = '/admin/assets/images/video.png'; break;
+          case ".docx" : thumbnail = '/admin/assets/images/doc.png'; break;
+          case ".xlsx" : thumbnail = '/admin/assets/images/xls.png'; break;
+          case ".pptx" : thumbnail = '/admin/assets/images/ppt.png'; break;
+          case ".pdf" : thumbnail = '/admin/assets/images/pdf.png'; break;
+          case ".zip" : thumbnail = '/admin/assets/images/zip.png'; break;
+          default: thumbnail = `${mediaUrl}${sectionValue}`; break;
+        } 
+      %>
+  
+      <div class="media-preview-wrap">
+        <div class="d-flex"><img src="<%= thumbnail %>" class="img-fluid" width="100px"></div>
+  
+        <div class="row mx-0 pt-4 justify-content-center align-items-center iconDiv">
+  
+          <div class="col-auto">
+            <div class="icon" id="mediaRemoveBtn" data-placeholder="<%= sectionName %>">
+            <i class="bi bi-trash3-fill"></i>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

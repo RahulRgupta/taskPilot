@@ -1,0 +1,84 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-0">
+      <div class="breadcrumb-title">
+        <a href="/employee/dashboard"><i class="fas fa-home-alt"></i></a>
+      </div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0">
+            <li class="breadcrumb-item"><a href="/employee/projects">Projects</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= project.name %> — Tasks</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="row g-4" id="kanbanBoard">
+    <!-- ASSIGNED Column -->
+    <div class="col-md-4">
+      <div class="card kanban-col shadow-none border">
+        <div class="card-header d-flex align-items-center justify-content-between pb-2" style="background: #fff3e0;">
+          <h6 class="mb-0"><span class="badge bg-label-warning me-2">Assigned</span></h6>
+          <span class="badge bg-warning text-white task-count" data-status="ASSIGNED">0</span>
+        </div>
+        <div class="card-body kanban-list p-3" data-status="ASSIGNED" id="col-ASSIGNED"
+             style="min-height: 280px; max-height: 70vh; overflow-y: auto; background: #fffdf7;"></div>
+      </div>
+    </div>
+    <!-- IN_PROGRESS Column -->
+    <div class="col-md-4">
+      <div class="card kanban-col shadow-none border">
+        <div class="card-header d-flex align-items-center justify-content-between pb-2" style="background: #e3f2fd;">
+          <h6 class="mb-0"><span class="badge bg-label-info me-2">In Progress</span></h6>
+          <span class="badge bg-info text-white task-count" data-status="IN_PROGRESS">0</span>
+        </div>
+        <div class="card-body kanban-list p-3" data-status="IN_PROGRESS" id="col-IN_PROGRESS"
+             style="min-height: 280px; max-height: 70vh; overflow-y: auto; background: #f8fcff;"></div>
+      </div>
+    </div>
+    <!-- COMPLETED Column -->
+    <div class="col-md-4">
+      <div class="card kanban-col shadow-none border">
+        <div class="card-header d-flex align-items-center justify-content-between pb-2" style="background: #e8f5e9;">
+          <h6 class="mb-0"><span class="badge bg-label-success me-2">Completed</span></h6>
+          <span class="badge bg-success text-white task-count" data-status="COMPLETED">0</span>
+        </div>
+        <div class="card-body kanban-list p-3" data-status="COMPLETED" id="col-COMPLETED"
+             style="min-height: 280px; max-height: 70vh; overflow-y: auto; background: #f7fdf8;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id="projectId" value="<%= project.id %>">
+
+<style>
+  .kanban-card {
+    background: #fff;
+    border: 1px solid #e7e7e8;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 10px;
+    cursor: grab;
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  .kanban-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .kanban-card:active { cursor: grabbing; }
+  .kanban-card .card-title { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; }
+  .kanban-card .card-desc { font-size: 0.8rem; color: #6e6b7b; margin-bottom: 8px; }
+  .kanban-card .card-meta { font-size: 0.75rem; color: #a5a3ae; display: flex; align-items: center; justify-content: space-between; }
+  .kanban-card .avatar-xs {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 600; color: #fff;
+  }
+  .sortable-ghost { opacity: 0.4; }
+  .sortable-drag { box-shadow: 0 8px 24px rgba(0,0,0,0.15); transform: rotate(2deg); }
+  .kanban-list { border-radius: 0 0 8px 8px; }
+  .kanban-list::-webkit-scrollbar { width: 6px; }
+  .kanban-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.04); border-radius: 3px; }
+  .kanban-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+</style>

@@ -1,0 +1,103 @@
+<div class="reg-page">
+  <div class="reg-card">
+    <a href="/" class="reg-logo">
+      <img src="/assets/img/logos/task-pilot-icon.svg" alt="Task Pilot">
+      <span>Task Pilot</span>
+    </a>
+    <h1>Register Organization</h1>
+    <p class="reg-hint">Sign up for your organization. Admin will verify before you can sign in.</p>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+    <div class="reg-alert reg-alert-error"><%= typeof error === 'string' ? error : 'Something went wrong' %></div>
+    <% } %>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+    <div class="reg-alert reg-alert-ok">
+      Registration done. Your organization is pending verification. We'll notify you once approved.
+    </div>
+    <a href="/login" class="reg-btn">Sign In</a>
+    <% } else { %>
+    <form action="/auth/register/organization" method="POST" class="reg-form">
+      <input type="text" name="name" placeholder="Organization name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password (min 6 chars)" required minlength="6">
+      <button type="submit">Register</button>
+    </form>
+    <p class="reg-foot">Already have an account? <a href="/login">Sign in</a></p>
+    <% } %>
+  </div>
+</div>
+
+<style>
+.reg-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: #f8f7fa;
+}
+.reg-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+.reg-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  color: #1e293b;
+  font-weight: 600;
+}
+.reg-logo img { width: 36px; height: 36px; }
+.reg-card h1 { font-size: 1.25rem; margin: 0 0 0.25rem 0; }
+.reg-hint { font-size: 0.875rem; color: #64748b; margin: 0 0 1.5rem 0; }
+.reg-alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+.reg-alert-error { background: #fef2f2; color: #b91c1c; }
+.reg-alert-ok { background: #f0fdf4; color: #166534; }
+.reg-form { display: flex; flex-direction: column; gap: 1rem; }
+.reg-form input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+.reg-form input:focus {
+  outline: none;
+  border-color: #0d9488;
+}
+.reg-form button {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: #0d9488;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.reg-form button:hover { background: #0f766e; }
+.reg-btn {
+  display: block;
+  text-align: center;
+  padding: 0.75rem;
+  background: #0d9488;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.reg-btn:hover { background: #0f766e; color: #fff; }
+.reg-foot { margin-top: 1rem; font-size: 0.875rem; color: #64748b; text-align: center; }
+.reg-foot a { color: #0d9488; }
+</style>

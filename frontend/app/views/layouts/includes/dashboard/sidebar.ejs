@@ -1,0 +1,136 @@
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+  <div class="app-brand demo">
+    <a href="<%= user && user.role === 'ADMIN' ? '/admin/dashboard' : (user && user.role === 'MANAGER' ? '/manager/dashboard' : (user && user.role === 'EMPLOYEE' ? '/employee/dashboard' : '/organization/dashboard')) %>" class="app-brand-link d-flex align-items-center">
+      <img src="/assets/img/logos/task-pilot-icon.svg" alt="Task Pilot" class="app-brand-logo" style="width: 40px; height: 40px; object-fit: contain;">
+      <span class="app-brand-text ms-2 fw-bold text-truncate">Task Pilot</span>
+    </a>
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+      <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
+      <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
+    </a>
+  </div>
+
+  <div class="menu-inner-shadow"></div>
+
+  <ul class="menu-inner py-1">
+    <% if (user && user.role === 'ADMIN') { %>
+    <!-- Admin Section -->
+    <li class="menu-item" data-path="/admin/dashboard">
+      <a href="/admin/dashboard" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-dashboard"></i>
+        <div data-i18n="Dashboard">Dashboard</div>
+      </a>
+    </li>
+    <li class="menu-item" data-path="/admin/organizations">
+      <a href="/admin/organizations" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-building"></i>
+        <div data-i18n="Organizations">Organizations</div>
+      </a>
+    </li>
+    <!-- <li class="menu-item" data-path="/admin/organizations/new">
+      <a href="/admin/organizations/new" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-plus"></i>
+        <div data-i18n="Create Organization">Create Organization</div>
+      </a>
+    </li> -->
+    <% } %>
+
+    <% if (user && user.role === 'ORGANIZATION') { %>
+    <!-- Organization Section -->
+    <li class="menu-item" data-path="/organization/dashboard">
+      <a href="/organization/dashboard" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-dashboard"></i>
+        <div data-i18n="Dashboard">Dashboard</div>
+      </a>
+    </li>
+    <li class="menu-item" data-path="/organization/users">
+      <a href="/organization/users" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-users"></i>
+        <div data-i18n="Manage Users">Manage Users</div>
+      </a>
+    </li>
+    <li class="menu-item" data-path="/organization/projects">
+      <a href="/organization/projects" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-folder"></i>
+        <div data-i18n="Projects">Projects</div>
+      </a>
+    </li>
+
+    <!-- <li class="menu-item" data-path="/organization/managers/new">
+      <a href="/organization/managers/new" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user-plus"></i>
+        <div data-i18n="Create Manager">Create Manager</div>
+      </a>
+    </li> -->
+    <!-- <li class="menu-item" data-path="/organization/employees/new">
+      <a href="/organization/employees/new" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user-plus"></i>
+        <div data-i18n="Create Employee">Create Employee</div>
+      </a>
+    </li> -->
+    <% } %>
+
+    <% if (user && user.role === 'MANAGER') { %>
+    <!-- Manager Section -->
+    <li class="menu-item" data-path="/manager/dashboard">
+      <a href="/manager/dashboard" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-dashboard"></i>
+        <div data-i18n="Dashboard">Dashboard</div>
+      </a>
+    </li>
+    <li class="menu-item" data-path="/manager/projects">
+      <a href="/manager/projects" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-folder"></i>
+        <div data-i18n="Projects">Projects</div>
+      </a>
+    </li>
+    <li class="menu-item" data-path="/manager/projects/new">
+      <a href="/manager/projects/new" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-plus"></i>
+        <div data-i18n="Create Project">Create Project</div>
+      </a>
+    </li>
+    <% } %>
+
+    <% if (user && user.role === 'EMPLOYEE') { %>
+    <!-- Employee Section -->
+    <li class="menu-item" data-path="/employee/dashboard">
+      <a href="/employee/dashboard" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-dashboard"></i>
+        <div data-i18n="Dashboard">Dashboard</div>
+      </a>
+    </li>
+    <li class="menu-item" data-path="/employee/projects">
+      <a href="/employee/projects" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-folder"></i>
+        <div data-i18n="My Projects">My Projects</div>
+      </a>
+    </li>
+    <% } %>
+  </ul>
+</aside>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var currentPath = window.location.pathname;
+    var menuItems = document.querySelectorAll('.menu-item');
+    var deepestMatch = null;
+    menuItems.forEach(function (item) {
+      var itemPath = item.getAttribute('data-path');
+      if (currentPath === itemPath) {
+        item.classList.add('active');
+        deepestMatch = item;
+      } else if (itemPath && currentPath.startsWith(itemPath) && !deepestMatch) {
+        item.classList.add('active');
+        deepestMatch = item;
+      }
+    });
+    if (deepestMatch) {
+      var parent = deepestMatch.parentElement;
+      while (parent && parent.classList.contains('menu-sub')) {
+        parent.parentElement.classList.add('active', 'open');
+        parent = parent.parentElement ? parent.parentElement.parentElement : null;
+      }
+    }
+  });
+</script>

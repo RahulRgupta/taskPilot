@@ -1,0 +1,183 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Employee /</span> Dashboard</h4>
+
+  <!-- Stats Card - Modern Design -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-sm-6 col-xl-4">
+      <div class="card emp-dashboard-card emp-stat-card emp-stat-projects h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">My Projects</p>
+              <h3 class="mb-0 fw-bold"><%= stats.projects %></h3>
+            </div>
+            <div class="emp-stat-icon-wrapper emp-stat-icon-primary rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-folders ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions - Card Grid -->
+  <div class="card emp-dashboard-card mb-4">
+    <div class="card-header d-flex align-items-center py-3">
+      <i class="ti ti-bolt me-2 text-primary"></i>
+      <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <a href="/employee/projects" class="emp-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="emp-action-icon emp-action-icon-primary rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-folders ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">My Projects</h6>
+              <p class="text-muted small mb-0">View your assigned projects</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4">
+          <a href="/employee/projects" class="emp-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="emp-action-icon emp-action-icon-info rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-checklist ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">Task Boards</h6>
+              <p class="text-muted small mb-0">Access project task boards</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if (projects && projects.length > 0) { %>
+  <div class="card emp-dashboard-card">
+    <div class="card-header d-flex align-items-center justify-content-between py-3">
+      <div class="d-flex align-items-center">
+        <i class="ti ti-briefcase me-2 text-primary"></i>
+        <h5 class="mb-0 fw-semibold">Assigned Projects</h5>
+      </div>
+      <a href="/employee/projects" class="btn btn-sm btn-outline-primary">
+        <i class="ti ti-arrow-right me-1"></i> View all
+      </a>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th><i class="ti ti-folder me-1 text-muted"></i> Project</th>
+            <th><i class="ti ti-user me-1 text-muted"></i> Created By</th>
+            <th><i class="ti ti-users me-1 text-muted"></i> Members</th>
+            <th><i class="ti ti-checklist me-1 text-muted"></i> Tasks</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% projects.forEach(function(p) { %>
+          <tr>
+            <td>
+              <strong><%= p.name %></strong>
+              <% if (p.description) { %>
+              <br><small class="text-muted"><%= p.description %></small>
+              <% } %>
+            </td>
+            <td><%= p.createdBy ? (p.createdBy.name || p.createdBy.email) : '—' %></td>
+            <td><%= p.employees ? p.employees.length : 0 %></td>
+            <td><%= p._count ? p._count.tasks : 0 %></td>
+            <td>
+              <a href="/employee/projects/<%= p.id %>/tasks" class="btn btn-sm btn-outline-primary">
+                <i class="ti ti-subtask me-1"></i> Task Board
+              </a>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% } else { %>
+  <div class="card emp-dashboard-card">
+    <div class="card-body text-center py-5">
+      <div class="emp-empty-icon rounded-3 d-inline-flex align-items-center justify-content-center mb-3">
+        <i class="ti ti-folder-off ti-lg text-white"></i>
+      </div>
+      <h6 class="fw-semibold mb-2">No projects assigned</h6>
+      <p class="text-muted mb-0">You don't have any projects assigned to you yet.</p>
+      <a href="/employee/projects" class="btn btn-sm btn-outline-primary mt-3">
+        <i class="ti ti-folders me-1"></i> Browse Projects
+      </a>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<style>
+/* Employee Dashboard - Enhanced UI (same as Organization/Manager) */
+.emp-dashboard-card {
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.emp-dashboard-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Stat Cards */
+.emp-stat-card {
+  border-left: 4px solid transparent;
+}
+
+.emp-stat-card.emp-stat-projects { border-left-color: #696cff; }
+
+.emp-stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+}
+
+.emp-stat-icon-primary { background: linear-gradient(135deg, #696cff 0%, #5f61e6 100%); }
+
+/* Quick Action Cards */
+.emp-action-card {
+  background: #f8f9fa;
+  transition: all 0.25s ease;
+}
+
+.emp-action-card:hover {
+  background: #fff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.emp-action-card:hover .emp-action-icon {
+  transform: scale(1.05);
+}
+
+.emp-action-icon {
+  width: 52px;
+  height: 52px;
+  transition: transform 0.25s ease;
+}
+
+.emp-action-icon-primary { background: linear-gradient(135deg, #696cff 0%, #5f61e6 100%); }
+.emp-action-icon-info { background: linear-gradient(135deg, #03c3ec 0%, #01a0c6 100%); }
+
+.emp-action-card .card-body {
+  color: inherit;
+}
+
+.emp-action-card:hover h6 {
+  color: #696cff !important;
+}
+
+/* Empty State */
+.emp-empty-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+}
+</style>

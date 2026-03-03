@@ -1,0 +1,184 @@
+<div class="<%= wrapperClass || 'col-12' %>">
+  <label class="form-label d-block mb-2">
+    <%= inputLabel %> 
+    <% if (isMandatory) { %><span class="text-danger">*</span><% } %>
+  </label>
+  
+  <div class="media-library-select-container">
+    <!-- Hidden Input to store the selected media URL/path -->
+    <input 
+      type="hidden" 
+      id="<%= inputId %>" 
+      name="<%= typeof inputName !== 'undefined' && inputName ? inputName : inputId %>"
+      value="<%= (typeof existingValue !== 'undefined' && existingValue) ? existingValue : (typeof value !== 'undefined' && value ? value : '') %>"
+      data-mandatory="<%= isMandatory ? 'true' : 'false' %>"
+    >
+    
+    <!-- Select Button and Preview -->
+    <div class="d-flex flex-column gap-2">
+      <!-- Preview Container -->
+      <% 
+        const currentValue = (typeof existingValue !== 'undefined' && existingValue) ? existingValue : (typeof value !== 'undefined' && value ? value : '');
+        const hasValue = currentValue && currentValue.length > 0;
+      %>
+      <div class="image-preview-wrapper" id="<%= inputId %>PreviewWrapper"<% if (!hasValue) { %> style="display: none;"<% } %>>
+        <div class="border rounded p-2 d-inline-block" id="<%= inputId %>PreviewContainer">
+          <%
+            // Check if file is a PDF using JavaScript string methods
+            let ext = '';
+            let isPdf = false;
+            if (currentValue) {
+              const lastDotIndex = currentValue.lastIndexOf('.');
+              ext = lastDotIndex !== -1 ? currentValue.substring(lastDotIndex).toLowerCase() : '';
+              isPdf = ext === '.pdf';
+            }
+          %>
+          <% if (isPdf) { %>
+            <iframe 
+              id="<%= inputId %>PdfPreview"
+              src="<%= currentValue %>"
+              class="border rounded"
+              style="max-width: 200px; max-height: 200px; width: 100%; height: 200px; display: block;"
+              frameborder="0"
+            ></iframe>
+            <img 
+              id="<%= inputId %>Preview" 
+              src=""
+              class="img-thumbnail" 
+              style="max-width: 200px; max-height: 200px; object-fit: cover; display: none;"
+              onerror="console.error('Failed to load image:', this.src); this.style.display='none';"
+              onload="this.style.display='block';"
+            >
+          <% } else { %>
+            <iframe 
+              id="<%= inputId %>PdfPreview"
+              src=""
+              class="border rounded"
+              style="max-width: 200px; max-height: 200px; width: 100%; height: 200px; display: none;"
+              frameborder="0"
+            ></iframe>
+            <img 
+              id="<%= inputId %>Preview" 
+              src="<%= currentValue %>"
+              class="img-thumbnail" 
+              style="max-width: 200px; max-height: 200px; object-fit: cover;"
+              onerror="console.error('Failed to load image:', this.src); this.style.display='none';"
+              onload="this.style.display='block';"
+            >
+          <% } %>
+        </div>
+        <div class="mt-2">
+          <button 
+            type="button" 
+            class="btn btn-sm btn-outline-primary me-2" 
+            onclick="openMediaLibrarySelect('<%= inputId %>')"
+          >
+            <i class="bx bx-refresh"></i> Change Image
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-sm btn-outline-danger" 
+            onclick="clearMediaLibrarySelect('<%= inputId %>')"
+          >
+            <i class="bx bx-x"></i> Remove
+          </button>
+        </div>
+      </div>
+      
+      <!-- Select Button (shown when no image selected) -->
+      <div class="select-button-wrapper" id="<%= inputId %>SelectWrapper"<% if (hasValue) { %> style="display: none;"<% } %>>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          onclick="openMediaLibrarySelect('<%= inputId %>')"
+        >
+          <i class="bx bx-image me-2"></i>Select Image from Media Library
+        </button>
+      </div>
+    </div>
+    
+    <!-- Validation Status -->
+    <div class="validation-status mt-2" id="<%= inputId %>Status" style="display: none;">
+      <small class="text-danger" id="<%= inputId %>Error">
+        <i class="bx bx-x-circle"></i> <span id="<%= inputId %>ErrorMessage"></span>
+      </small>
+    </div>
+  </div>
+  
+  <% if (hintText) { %>
+    <div class="form-text text-muted mt-1"><%= hintText %></div>
+  <% } %>
+</div>
+
+<script>
+(function() {
+  // Initialize validation status
+  if (typeof window.validationStatus === 'undefined') {
+    window.validationStatus = {};
+  }
+  
+  const inputId = '<%= inputId %>';
+  
+  // Function to initialize preview image
+  function initializePreviewImage() {
+    const input = document.getElementById(inputId);
+    const previewImg = document.getElementById(inputId + 'Preview');
+    const pdfPreview = document.getElementById(inputId + 'PdfPreview');
+    
+    if (!input) return;
+    
+    const isMandatory = input.getAttribute('data-mandatory') === 'true';
+    const initialValue = input.value;
+    
+    // Set initial validation status
+    if (initialValue) {
+      window.validationStatus[inputId] = true;
+    } else {
+      window.validationStatus[inputId] = !isMandatory;
+    }
+    
+    // Initialize preview with base URL if needed
+    if (initialValue) {
+      // Get AJAX_URL from global scope
+      const ajaxUrl = (typeof AJAX_URL !== 'undefined' && AJAX_URL) ? AJAX_URL : '';
+      
+      // Check if file is a PDF
+      const lastDotIndex = initialValue.lastIndexOf('.');
+      const ext = lastDotIndex !== -1 ? initialValue.toLowerCase().substring(lastDotIndex) : '';
+      const isPdf = ext === '.pdf';
+      
+      // Construct full URL
+      let fullUrl = initialValue;
+      if (initialValue && !initialValue.startsWith('http')) {
+        const cleanAjaxUrl = ajaxUrl ? (ajaxUrl.endsWith('/') ? ajaxUrl.slice(0, -1) : ajaxUrl) : '';
+        const cleanImagePath = initialValue.startsWith('/') ? initialValue : '/' + initialValue;
+        fullUrl = cleanAjaxUrl + cleanImagePath;
+      }
+      
+      if (isPdf && pdfPreview) {
+        // For PDFs, set iframe source
+        pdfPreview.src = fullUrl;
+        pdfPreview.style.display = 'block';
+        if (previewImg) {
+          previewImg.style.display = 'none';
+        }
+      } else if (previewImg) {
+        // For images, set img source
+        previewImg.src = fullUrl;
+        previewImg.style.display = 'block';
+        if (pdfPreview) {
+          pdfPreview.style.display = 'none';
+        }
+      }
+    }
+  }
+  
+  // Initialize immediately if DOM is ready, otherwise wait for it
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializePreviewImage);
+  } else {
+    // DOM is already ready
+    initializePreviewImage();
+  }
+})();
+</script>

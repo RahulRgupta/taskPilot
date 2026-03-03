@@ -1,0 +1,15 @@
+<div class="row mb-3">
+  <% if ( typeof inputLabel !== 'undefined' && inputLabel ) { %>
+    <label class="col-sm-3 col-form-label"><%= inputLabel %></label>
+  <% } %>
+
+  <div class="<%= typeof inputType !== 'undefined' && inputType && inputType === 'date' ? 'col-sm-3' : 'col-sm-9' %>">
+    <input 
+      type="<%= typeof inputType !== 'undefined' && inputType ? inputType : 'text' %>" 
+      id="<%= inputId %>" 
+      name="<%= inputId %>"
+      class="form-control" 
+      value="<%= value %>" />
+    <label for="<%= inputId %>" class="invalid-feedback"></label>  
+  </div>
+</div>

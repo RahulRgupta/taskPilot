@@ -1,0 +1,32 @@
+<div class="<%= wrapperClass %>">
+
+  
+  <% if ( typeof inputLabel !== 'undefined' && inputLabel ) { %>
+    <label class="form-label"><%= inputLabel %>
+    
+    <% if (typeof isMandatory !== 'undefined' && isMandatory === true) { %>
+          <span class="text-danger">*</span>
+        <% } %>
+    
+    </label>
+    <% } %>
+
+  <textarea 
+    id="<%= inputId %>"
+    name="<%= typeof inputName !== 'undefined' && inputName ? inputName : inputId %>" 
+    <% if (typeof rows !== 'undefined' && rows) { %>
+    rows="<%= rows %>"
+    <% } else { %>
+    rows="2"
+    <% } %>
+    <% if (typeof disabled !== 'undefined' && disabled) { %>
+    disabled
+    <% } %>
+    class="form-control <%= typeof isEditor !== 'undefined' && isEditor ? 'editor' : '' %>"><%= value %></textarea>
+
+  <% if (typeof hintText !== 'undefined' && hintText) { %>
+    <label class="mt-2">Hint: <%= hintText %></label>
+  <% } %>
+
+  <label for="<%= inputId %>" class="invalid-feedback"></label>
+</div>

@@ -1,0 +1,39 @@
+<div class="<%= wrapperClass %>">
+
+  
+  <% if ( typeof inputLabel !== 'undefined' && inputLabel ) { %>
+    <label class="form-label"><%= inputLabel %>
+    
+    <% if (typeof isMandatory !== 'undefined' && isMandatory === true) { %>
+          <span class="text-danger">*</span>
+        <% } %>
+    
+    </label>
+    <% } %>
+
+  <select
+    id="<%= inputId %>"
+    name="<%= inputId %>"
+    class="form-select <%= typeof customClass !== 'undefined' ? customClass : '' %>"
+    <% if (typeof multiple !== 'undefined' && multiple) { %> multiple <% } %>
+    <% if (typeof value !== 'undefined' && value) { %> value="<%= value %>" <% } %>
+    <%= typeof disable !== 'undefined' && disable === true ? 'disabled' : '' %> 
+  >
+    <option value="">Select option</option>
+
+    <% if (typeof inputOptions !== 'undefined' && inputOptions.length > 0) { %>
+      <% inputOptions.forEach(element => { %>
+        <option 
+          value="<%= element.id %>" 
+          <%= element.disabled ? 'disabled' : '' %>
+          <%= (typeof multiple !== 'undefined' && multiple) ? (Array.isArray(value) && value.includes(element.id) ? "selected" : "") : (element.id == value ? "selected" : "") %>
+        >
+          <%= element.name %>
+        </option>
+      <% }) %>
+    <% } %>
+
+  </select>
+  <label for="<%= inputId.replace('[]', '') %>" class="invalid-feedback"></label>
+  <small id="<%= inputId %>Error" class="text-danger mt-1 d-block" style="display:<%= typeof errorMessage !== 'undefined' && errorMessage ? 'block' : 'none' %>;"><%= typeof errorMessage !== 'undefined' && errorMessage ? errorMessage : '' %></small>
+</div>

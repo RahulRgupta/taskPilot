@@ -1,0 +1,233 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organization /</span> Dashboard</h4>
+
+  <!-- Organization Info Card - Enhanced -->
+  <div class="card org-dashboard-card org-info-card mb-4 overflow-hidden">
+    <div class="card-body p-4">
+      <div class="d-flex align-items-center flex-wrap gap-3">
+        <div class="org-avatar-wrapper flex-shrink-0">
+          <span class="org-avatar-initial rounded-3 d-flex align-items-center justify-content-center">
+            <i class="ti ti-building-community ti-lg text-white"></i>
+          </span>
+        </div>
+        <div class="flex-grow-1 min-w-0">
+          <h5 class="card-title mb-1 fw-bold"><%= organization.name %></h5>
+          <p class="text-muted mb-0 d-flex align-items-center gap-2">
+            <i class="ti ti-mail text-primary" style="font-size: 0.9rem;"></i>
+            <%= organization.email %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards - Modern Design -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card org-dashboard-card org-stat-card org-stat-managers h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Managers</p>
+              <h3 class="mb-0 fw-bold"><%= stats.managers %></h3>
+            </div>
+            <div class="org-stat-icon-wrapper org-stat-icon-success rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-user-check ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card org-dashboard-card org-stat-card org-stat-employees h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Employees</p>
+              <h3 class="mb-0 fw-bold"><%= stats.employees %></h3>
+            </div>
+            <div class="org-stat-icon-wrapper org-stat-icon-warning rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-user ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card org-dashboard-card org-stat-card org-stat-users h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Total Users</p>
+              <h3 class="mb-0 fw-bold"><%= stats.totalUsers %></h3>
+            </div>
+            <div class="org-stat-icon-wrapper org-stat-icon-info rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-users ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card org-dashboard-card org-stat-card org-stat-projects h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="flex-grow-1">
+              <p class="text-muted mb-1 small text-uppercase fw-semibold">Projects</p>
+              <h3 class="mb-0 fw-bold"><%= typeof stats.projects !== 'undefined' ? stats.projects : 0 %></h3>
+            </div>
+            <div class="org-stat-icon-wrapper org-stat-icon-primary rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+              <i class="ti ti-folders ti-lg text-white"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions - Card Grid -->
+  <div class="card org-dashboard-card">
+    <div class="card-header d-flex align-items-center py-3">
+      <i class="ti ti-bolt me-2 text-primary"></i>
+      <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-sm-6 col-lg-3">
+          <a href="/organization/users" class="org-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="org-action-icon org-action-icon-primary rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-users ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">Manage Users</h6>
+              <p class="text-muted small mb-0">View and manage team members</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <a href="/organization/users/new" class="org-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="org-action-icon org-action-icon-success rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-user-plus ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">Add User</h6>
+              <p class="text-muted small mb-0">Invite new team members</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <a href="/organization/projects" class="org-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="org-action-icon org-action-icon-info rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-briefcase ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">Projects</h6>
+              <p class="text-muted small mb-0">Browse all projects</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <a href="/organization/projects/new" class="org-action-card card border-0 text-decoration-none d-block h-100">
+            <div class="card-body p-4 text-center">
+              <div class="org-action-icon org-action-icon-warning rounded-3 d-inline-flex align-items-center justify-content-center mb-2">
+                <i class="ti ti-folder-plus ti-md text-white"></i>
+              </div>
+              <h6 class="mb-1 fw-semibold">New Project</h6>
+              <p class="text-muted small mb-0">Create a new project</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Organization Dashboard - Enhanced UI */
+.org-dashboard-card {
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.org-dashboard-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Organization Info Card */
+.org-info-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+.org-info-card .card-title,
+.org-info-card .text-muted {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.org-info-card .text-muted {
+  opacity: 0.9;
+}
+
+.org-avatar-wrapper .org-avatar-initial {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+/* Stat Cards */
+.org-stat-card {
+  border-left: 4px solid transparent;
+}
+
+.org-stat-card.org-stat-managers { border-left-color: #71dd37; }
+.org-stat-card.org-stat-employees { border-left-color: #ffab00; }
+.org-stat-card.org-stat-users { border-left-color: #03c3ec; }
+.org-stat-card.org-stat-projects { border-left-color: #696cff; }
+
+.org-stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+}
+
+.org-stat-icon-success { background: linear-gradient(135deg, #71dd37 0%, #56b329 100%); }
+.org-stat-icon-warning { background: linear-gradient(135deg, #ffab00 0%, #ff8f00 100%); }
+.org-stat-icon-info { background: linear-gradient(135deg, #03c3ec 0%, #01a0c6 100%); }
+.org-stat-icon-primary { background: linear-gradient(135deg, #696cff 0%, #5f61e6 100%); }
+
+/* Quick Action Cards */
+.org-action-card {
+  background: #f8f9fa;
+  transition: all 0.25s ease;
+}
+
+.org-action-card:hover {
+  background: #fff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.org-action-card:hover .org-action-icon {
+  transform: scale(1.05);
+}
+
+.org-action-icon {
+  width: 52px;
+  height: 52px;
+  transition: transform 0.25s ease;
+}
+
+.org-action-icon-primary { background: linear-gradient(135deg, #696cff 0%, #5f61e6 100%); }
+.org-action-icon-success { background: linear-gradient(135deg, #71dd37 0%, #56b329 100%); }
+.org-action-icon-info { background: linear-gradient(135deg, #03c3ec 0%, #01a0c6 100%); }
+.org-action-icon-warning { background: linear-gradient(135deg, #ffab00 0%, #ff8f00 100%); }
+
+.org-action-card .card-body {
+  color: inherit;
+}
+
+.org-action-card:hover h6 {
+  color: #696cff !important;
+}
+</style>

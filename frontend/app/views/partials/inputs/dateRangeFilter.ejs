@@ -1,0 +1,64 @@
+<div class="date-range-filter mb-3">
+    <div class="row g-3 align-items-center">
+      <div class="col-auto">
+        <label class="form-label mb-0">Date Range:</label>
+      </div>
+      <div class="col-auto">
+        <div class="input-group">
+          <input type="text" class="form-control" id="startDate" placeholder="Start Date">
+          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="input-group">
+          <input type="text" class="form-control" id="endDate" placeholder="End Date">
+          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+        </div>
+      </div>
+      <div class="col-auto">
+        <button type="button" id="applyDateFilter" class="btn btn-primary">Apply Filter</button>
+      </div>
+      <div class="col-auto">
+        <button type="button" id="resetDateFilter" class="btn btn-outline-secondary">Reset</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    const startDate = flatpickr("#startDate", {
+      dateFormat: "Y-m-d",
+      maxDate: "today"
+    });
+    
+    const endDate = flatpickr("#endDate", {
+      dateFormat: "Y-m-d",
+      maxDate: "today"
+    });
+  
+    
+    document.getElementById('applyDateFilter').addEventListener('click', function() {
+      const startValue = document.getElementById('startDate').value;
+      const endValue = document.getElementById('endDate').value;
+      
+      if (startValue && endValue) {
+         
+        if (typeof listTable !== 'undefined') {
+          listTable.ajax.reload();
+        }
+      } else {
+        alert('Please select both start and end dates');
+      }
+    });
+  
+    
+    document.getElementById('resetDateFilter').addEventListener('click', function() {
+      startDate.clear();
+      endDate.clear();
+      if (typeof listTable !== 'undefined') {
+        listTable.ajax.reload();
+      }
+    });
+  });
+  </script>

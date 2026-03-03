@@ -1,0 +1,18 @@
+<div class="row mb-3">
+  <% if ( typeof inputLabel !== 'undefined' && inputLabel ) { %>
+    <label class="col-sm-3 col-form-label"><%= inputLabel %></label>
+  <% } %>
+
+  <div class="col-sm-4">
+    <input 
+      type="text"
+      id="<%= inputId %>"
+      name="<%= inputId %>"
+      class="form-control date-time-picker result"
+      placeholder="<%= typeof placeholder !== 'undefined' && placeholder ? placeholder : '' %>"
+      <%= typeof disabled !== 'undefined' && disabled ? 'disabled' : '' %>
+      value="<%= value %>">
+
+    <label for="<%= inputId %>" class="invalid-feedback"></label>  
+  </div>
+</div>
