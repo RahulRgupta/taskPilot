@@ -4,3 +4,7 @@ dist
 # Environment variables (never commit secrets)
 .env
 frontend/.env
+
+# Scripts (local/dev use)
+prisma/seed.ts
+scripts/create-admin.ts

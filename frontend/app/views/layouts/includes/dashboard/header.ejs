@@ -1,49 +1,84 @@
-<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme header-modern" id="layout-navbar">
   <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+    <a class="nav-item nav-link px-0 me-xl-4 layout-menu-toggle-action" href="javascript:void(0)">
       <i class="ti ti-menu-2 ti-sm"></i>
     </a>
   </div>
 
-  <div class="header-brand d-flex align-items-center me-3 me-xl-4">
-    <a href="<%= user && user.role === 'ADMIN' ? '/admin/dashboard' : (user && user.role === 'MANAGER' ? '/manager/dashboard' : (user && user.role === 'EMPLOYEE' ? '/employee/dashboard' : '/organization/dashboard')) %>" class="d-flex align-items-center text-decoration-none">
-      <img src="/assets/img/logos/task-pilot-icon.svg" alt="Task Pilot" style="width: 36px; height: 36px; object-fit: contain;">
-      <span class="ms-2 fw-bold text-body d-none d-sm-inline">Task Pilot</span>
+  <div class="header-brand d-flex align-items-center me-4">
+    <a href="<%= user && user.role === 'ADMIN' ? '/admin/dashboard' : (user && user.role === 'MANAGER' ? '/manager/dashboard' : (user && user.role === 'EMPLOYEE' ? '/employee/dashboard' : '/organization/dashboard')) %>" class="d-flex align-items-center text-decoration-none header-brand-link">
+      <span class="header-brand-logo-wrapper">
+        <img src="/assets/img/logos/task-pilot-icon.svg" alt="Task Pilot" class="header-brand-logo">
+      </span>
+      <span class="ms-2 fw-semibold text-body d-none d-sm-inline header-brand-text">Task Pilot</span>
     </a>
   </div>
 
   <div class="navbar-nav-right d-flex align-items-center flex-grow-1" id="navbar-collapse">
-    <div><b>Welcome, </b> <%= (user && (user.name || user.email)) ? (user.name || user.email) : 'User' %></div>
-    <ul class="navbar-nav flex-row align-items-center ms-auto">
+    <div class="header-welcome d-none d-md-flex align-items-center">
+      <span class="header-welcome-pill">
+        <i class="ti ti-user-circle ti-sm me-2"></i>
+        <span class="header-welcome-text">Welcome, <strong><%= (user && (user.name || user.email)) ? (user.name || user.email) : 'User' %></strong></span>
+      </span>
+    </div>
+    <ul class="navbar-nav flex-row align-items-center ms-auto gap-2">
       <li class="nav-item navbar-dropdown dropdown-user dropdown">
-        <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-          <div class="avatar avatar-online">
-            <img src="/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+        <a class="nav-link dropdown-toggle hide-arrow d-flex align-items-center header-user-trigger" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="avatar avatar-online header-avatar-wrapper header-avatar-initials">
+            <% 
+              var displayName = (user && (user.name || user.email)) ? (user.name || user.email) : 'User';
+              var parts = displayName.trim().split(/\s+/).filter(Boolean);
+              var initials = 'U';
+              if (parts.length >= 2) {
+                initials = (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+              } else if (parts.length === 1 && parts[0].length > 0) {
+                initials = parts[0].length >= 2 ? parts[0].substring(0, 2).toUpperCase() : parts[0][0].toUpperCase();
+              }
+            %>
+            <span class="avatar-initials"><%= initials %></span>
+            <span class="avatar-status rounded-circle bg-success"></span>
           </div>
+          <span class="header-user-name d-none d-xl-inline ms-2 text-body">
+            <%= (user && (user.name || user.email)) ? ((user.name || user.email).length > 15 ? (user.name || user.email).substring(0, 15) + '...' : (user.name || user.email)) : 'User' %>
+          </span>
+          <i class="ti ti-chevron-down ti-xs ms-1 d-none d-xl-inline"></i>
         </a>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li>
-            <a class="dropdown-item" href="javascript:void(0);">
-              <div class="d-flex">
-                <div class="flex-shrink-0 me-3">
-                  <div class="avatar avatar-online">
-                    <img src="/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
-                  </div>
-                </div>
-                <div class="flex-grow-1">
-                  <span class="fw-medium d-block"><%= (user && (user.name || user.email)) ? (user.name || user.email) : 'User' %></span>
-                  <small class="text-muted">
-                    <% if (typeof isSuperadmin !== 'undefined' && isSuperadmin) { %> Admin <% } else if (user && user.role === 'ORGANIZATION') { %> Organization <% } else if (user && user.role === 'MANAGER') { %> Manager <% } else { %> User <% } %>
-                  </small>
+        <ul class="dropdown-menu dropdown-menu-end header-dropdown shadow-lg border-0 py-2">
+          <li class="px-3 py-2">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0">
+                <div class="avatar avatar-online header-avatar-initials">
+                  <% 
+                    var dpName = (user && (user.name || user.email)) ? (user.name || user.email) : 'User';
+                    var dpParts = dpName.trim().split(/\s+/).filter(Boolean);
+                    var dpInitials = 'U';
+                    if (dpParts.length >= 2) {
+                      dpInitials = (dpParts[0][0] + dpParts[dpParts.length - 1][0]).toUpperCase();
+                    } else if (dpParts.length === 1 && dpParts[0].length > 0) {
+                      dpInitials = dpParts[0].length >= 2 ? dpParts[0].substring(0, 2).toUpperCase() : dpParts[0][0].toUpperCase();
+                    }
+                  %>
+                  <span class="avatar-initials"><%= dpInitials %></span>
+                  <span class="avatar-status rounded-circle bg-success"></span>
                 </div>
               </div>
-            </a>
+              <div class="flex-grow-1 ms-3">
+                <span class="fw-semibold d-block text-body"><%= (user && (user.name || user.email)) ? (user.name || user.email) : 'User' %></span>
+                <span class="header-role-badge badge">
+                  <% if (typeof isSuperadmin !== 'undefined' && isSuperadmin) { %> Admin
+                  <% } else if (user && user.role === 'ORGANIZATION') { %> Organization
+                  <% } else if (user && user.role === 'MANAGER') { %> Manager
+                  <% } else if (user && user.role === 'EMPLOYEE') { %> Employee
+                  <% } else { %> User <% } %>
+                </span>
+              </div>
+            </div>
           </li>
-          <li><div class="dropdown-divider"></div></li>
+          <li><div class="dropdown-divider my-2"></div></li>
           <li>
-            <a class="dropdown-item" href="/auth/logout">
-              <i class="ti ti-logout me-2 ti-sm"></i>
-              <span class="align-middle">Log Out</span>
+            <a class="dropdown-item d-flex align-items-center rounded-2 mx-2 py-2" href="/auth/logout">
+              <i class="ti ti-logout ti-sm me-2"></i>
+              <span>Log Out</span>
             </a>
           </li>
         </ul>
